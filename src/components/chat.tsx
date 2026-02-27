@@ -2,39 +2,8 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// A very basic markdown to HTML converter.
-// It handles bold, italic, code, links, and simple unordered lists.
-// For complex markdown, a dedicated library like 'marked' or 'react-markdown' should be used.
-const markdownToHtml = (markdown: string): string => {
-  let html = markdown;
-
-  // Basic HTML escaping for safety, before other replacements
-  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  // Bold: **text**
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  // Italic: *text*
-  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  // Code: `code`
-  html = html.replace(/`(.*?)`/g, '<code>$1</code>');
-  // Links: [text](url)
-  html = html.replace(/\[([^\]]+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline">$1</a>');
-
-  // Unordered lists (simple block handling): - item
-  // This regex matches a block of lines starting with '-' and converts them to an HTML unordered list.
-  html = html.replace(/^(- .*(\n- .*)*)$/gm, (match) => {
-    const listItems = match.split('\n').map(line => `<li>${line.substring(2).trim()}</li>`).join('');
-    return `<ul>${listItems}</ul>`;
-  });
-
-  // Replace remaining newlines with <br/> for general line breaks
-  // This is a simple approach that treats every newline as a line break.
-  // For proper paragraph handling, a more sophisticated parser would be needed.
-  html = html.replace(/\n/g, '<br/>');
-
-  return html;
-};
+import ReactMarkdown from 'react-markdown';
+import rehypeSanitize from 'rehype-sanitize';
 
 interface Message {
   id: string;
@@ -227,7 +196,11 @@ export default function Chat() {
               >
                 {msg.role === 'assistant' ? (
                   <>
-                    <div dangerouslySetInnerHTML={{ __html: markdownToHtml(msg.content) }} />
+                    <div className="prose prose-sm prose-slate max-w-none [&_a]:text-teal-600 [&_a]:hover:underline [&_a]:no-underline [&_code]:bg-slate-200 [&_code]:px-1 [&_code]:rounded [&_ul]:list-disc [&_ul]:pl-4">
+                      <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                        {msg.content}
+                      </ReactMarkdown>
+                    </div>
                     {msg.isLoading && (
                       <span className="relative flex h-2 w-2 ml-2 mt-1">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75"></span>

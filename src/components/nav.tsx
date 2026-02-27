@@ -8,6 +8,7 @@ const links = [
   { name: 'About', href: '#about' },
   { name: 'Why LINZ', href: '#why-linz' },
   { name: 'Prototype', href: '#prototype' },
+  { name: 'Approach', href: '#approach' },
   { name: 'Experience', href: '#experience' },
   { name: 'Projects', href: '#projects' },
   { name: 'Contact', href: '#contact' },
