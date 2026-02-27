@@ -1,0 +1,20 @@
+{
+  "name": "openai-assistant-setup",
+  "version": "1.0.0",
+  "description": "Script to set up an OpenAI Assistant for Next.js RAG",
+  "main": "index.js",
+  "scripts": {
+    "setup-assistant": "tsx scripts/setup-assistant.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "openai": "^4.47.1",
+    "tsx": "^4.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12"
+  }
+}
