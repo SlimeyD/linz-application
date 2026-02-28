@@ -25,29 +25,40 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState<string>('');
   const [isApiLoading, setIsApiLoading] = useState<boolean>(false); // For initial "Searching documentation..."
-  const [threadId, setThreadId] = useState<string | null>(null);
+  const [responseId, setResponseId] = useState<string | null>(null);
   const [messageCount, setMessageCount] = useState<number>(0);
   const [isRateLimited, setIsRateLimited] = useState<boolean>(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const userHasScrolledRef = useRef(false);
 
-  // Auto-scroll to the bottom of the chat window
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  // Check if user is near the bottom of the chat container
+  const isNearBottom = useCallback(() => {
+    const el = chatContainerRef.current;
+    if (!el) return true;
+    return el.scrollHeight - el.clientHeight - el.scrollTop < 100;
   }, []);
+
+  // Auto-scroll within the chat container only (not the page)
+  const scrollToBottom = useCallback(() => {
+    const el = chatContainerRef.current;
+    if (!el) return;
+    if (userHasScrolledRef.current && !isNearBottom()) return;
+    el.scrollTop = el.scrollHeight;
+  }, [isNearBottom]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // Load threadId from sessionStorage on component mount
+  // Load responseId from sessionStorage on component mount
   useEffect(() => {
-    const storedThreadId = sessionStorage.getItem('linz_assistant_thread_id');
-    if (storedThreadId) {
-      setThreadId(storedThreadId);
+    const storedResponseId = sessionStorage.getItem('linz_assistant_response_id');
+    if (storedResponseId) {
+      setResponseId(storedResponseId);
     }
-    // Focus the input field when the component mounts
     inputRef.current?.focus();
   }, []);
 
@@ -69,7 +80,7 @@ export default function Chat() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ threadId, message: messageText }),
+        body: JSON.stringify({ previousResponseId: responseId, message: messageText }),
       });
 
       if (response.status === 429) {
@@ -86,10 +97,10 @@ export default function Chat() {
         throw new Error(errorData.error || `Failed to fetch response: ${response.status} ${response.statusText}`);
       }
 
-      const newThreadId = response.headers.get('x-thread-id');
-      if (newThreadId && newThreadId !== threadId) {
-        setThreadId(newThreadId);
-        sessionStorage.setItem('linz_assistant_thread_id', newThreadId);
+      const newResponseId = response.headers.get('x-response-id');
+      if (newResponseId) {
+        setResponseId(newResponseId);
+        sessionStorage.setItem('linz_assistant_response_id', newResponseId);
       }
 
       const reader = response.body.getReader();
@@ -103,6 +114,8 @@ export default function Chat() {
         { id: assistantMessageId, role: 'assistant', content: '', isLoading: true },
       ]);
 
+      userHasScrolledRef.current = false; // Reset on new message send
+
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
@@ -113,11 +126,11 @@ export default function Chat() {
         // Update the last assistant message with streaming content
         setMessages(prev => prev.map(msg =>
           msg.id === assistantMessageId
-            ? { ...msg, content: assistantResponseContent, isLoading: false } // Mark not loading after first token
+            ? { ...msg, content: assistantResponseContent, isLoading: false }
             : msg
         ));
-        setIsApiLoading(false); // Once first token arrives, remove global loading indicator
-        scrollToBottom(); // Keep scrolling as content comes in
+        setIsApiLoading(false);
+        scrollToBottom();
       }
 
     } catch (error) {
@@ -134,7 +147,7 @@ export default function Chat() {
       setIsApiLoading(false); // Ensure loading is off in all cases
       inputRef.current?.focus(); // Re-focus input after response
     }
-  }, [isApiLoading, threadId, isRateLimited, scrollToBottom]);
+  }, [isApiLoading, responseId, isRateLimited, scrollToBottom]);
 
   const handleKeyPress = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -165,16 +178,11 @@ export default function Chat() {
 
       {/* Message List */}
       <div
+        ref={chatContainerRef}
         className="flex-1 overflow-y-auto p-4 space-y-4"
-        onWheel={(e) => {
-          const el = e.currentTarget;
-          const isScrollable = el.scrollHeight > el.clientHeight;
-          if (!isScrollable) return;
-          const atTop = el.scrollTop === 0 && e.deltaY < 0;
-          const atBottom = Math.abs(el.scrollHeight - el.clientHeight - el.scrollTop) < 1 && e.deltaY > 0;
-          if (!atTop && !atBottom) {
-            e.stopPropagation();
-          }
+        onScroll={() => {
+          // Track when user manually scrolls away from bottom
+          userHasScrolledRef.current = !isNearBottom();
         }}
       >
         <AnimatePresence mode="popLayout">
@@ -188,7 +196,7 @@ export default function Chat() {
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[75%] px-4 py-2 rounded-lg shadow-sm ${
+                className={`max-w-[75%] px-4 py-2 rounded-lg shadow-sm overflow-hidden break-words ${
                   msg.role === 'user'
                     ? 'bg-teal-500 text-white'
                     : 'bg-slate-50 text-slate-800 border border-slate-200'
@@ -196,7 +204,7 @@ export default function Chat() {
               >
                 {msg.role === 'assistant' ? (
                   <>
-                    <div className="prose prose-sm prose-slate max-w-none [&_a]:text-teal-600 [&_a]:hover:underline [&_a]:no-underline [&_code]:bg-slate-200 [&_code]:px-1 [&_code]:rounded [&_ul]:list-disc [&_ul]:pl-4">
+                    <div className="prose prose-sm prose-slate max-w-none break-words [&_a]:text-teal-600 [&_a]:hover:underline [&_a]:no-underline [&_code]:bg-slate-200 [&_code]:px-1 [&_code]:rounded [&_code]:break-all [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_ul]:list-disc [&_ul]:pl-4">
                       <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
                         {msg.content}
                       </ReactMarkdown>

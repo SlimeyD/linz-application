@@ -1,135 +1,168 @@
 import { NextRequest, NextResponse } from 'next/server';
 import openai from '@/lib/openai';
+import { ASSISTANT_MODEL, ASSISTANT_INSTRUCTIONS } from '@/lib/assistant-config';
+import { CITATION_URL_MAP } from '@/lib/citation-config';
 
-// Ensure these environment variables are set in your .env.local file
-function getAssistantId(): string {
-  const id = process.env.OPENAI_ASSISTANT_ID;
-  if (!id) throw new Error('Missing OPENAI_ASSISTANT_ID environment variable.');
+function getVectorStoreId(): string {
+  const id = process.env.OPENAI_VECTOR_STORE_ID;
+  if (!id) throw new Error('Missing OPENAI_VECTOR_STORE_ID environment variable.');
   return id;
 }
 
-// Simple in-memory rate limiting for demonstration purposes.
-// In a production environment, consider persistent storage (e.g., Redis) and more robust mechanisms.
+// Simple in-memory rate limiting
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const MAX_MESSAGES_PER_HOUR = 20;
-const RESET_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const RESET_WINDOW_MS = 60 * 60 * 1000;
 
-/**
- * Extracts the client's IP address from the request headers.
- * Prioritizes 'x-forwarded-for' for proxy compatibility.
- */
 function getClientIp(req: NextRequest): string {
   const forwardedFor = req.headers.get('x-forwarded-for');
-  if (forwardedFor) {
-    return forwardedFor.split(',')[0].trim();
-  }
-  // Fallback for non-proxied environments or testing
+  if (forwardedFor) return forwardedFor.split(',')[0].trim();
   return req.headers.get('x-real-ip') || 'unknown';
 }
 
+/**
+ * Replaces OpenAI citation markers in the final text with markdown links.
+ * Citations from the Responses API file_search appear as 【n†filename】 markers
+ * in the text, with structured annotation data on the completed response.
+ */
+function processCitations(
+  text: string,
+  annotations: Array<{ type: string; filename?: string; file_id?: string; index?: number }>,
+): string {
+  if (!annotations.length) return text;
+
+  let processed = text;
+
+  // Build a deduped list of cited sources for a footer
+  const citedSources = new Map<string, { label: string; url: string }>();
+
+  for (const annotation of annotations) {
+    if (annotation.type === 'file_citation' && annotation.filename) {
+      const mapping = CITATION_URL_MAP[annotation.filename];
+      if (mapping) {
+        citedSources.set(annotation.filename, mapping);
+      }
+    }
+  }
+
+  // Remove inline citation markers (【...】patterns)
+  processed = processed.replace(/【[^】]*】/g, '');
+
+  // Append source links as a footer if there are citations
+  if (citedSources.size > 0) {
+    const sourceLinks = Array.from(citedSources.values())
+      .map((s) => `[${s.label}](${s.url})`)
+      .join(' · ');
+    processed = processed.trimEnd() + '\n\n**Sources:** ' + sourceLinks;
+  }
+
+  return processed;
+}
+
 export async function POST(req: NextRequest) {
-  let currentThreadId: string | undefined; // To store the final thread ID for the header
-
   try {
-    const { threadId: clientThreadId, message } = await req.json();
-
+    const { previousResponseId, message } = await req.json();
     if (!message) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
+    // Rate limiting
     const clientIp = getClientIp(req);
     const now = Date.now();
-
-    // Apply rate limiting
     let userRateLimit = rateLimitMap.get(clientIp);
     if (!userRateLimit || now >= userRateLimit.resetAt) {
       userRateLimit = { count: 0, resetAt: now + RESET_WINDOW_MS };
       rateLimitMap.set(clientIp, userRateLimit);
     }
-
     if (userRateLimit.count >= MAX_MESSAGES_PER_HOUR) {
-      return NextResponse.json({ error: 'Rate limit exceeded. Please try again later.' }, { status: 429 });
+      return NextResponse.json({ error: 'Rate limit exceeded.' }, { status: 429 });
     }
-
-    // Initialize or retrieve the thread
-    let thread;
-    if (clientThreadId) {
-      try {
-        thread = await openai.beta.threads.retrieve(clientThreadId);
-      } catch (error: any) {
-        // If thread not found or other retrieval error, create a new one
-        console.warn(`Failed to retrieve thread ${clientThreadId}. Creating a new one.`, error);
-        thread = await openai.beta.threads.create();
-      }
-    } else {
-      thread = await openai.beta.threads.create();
-    }
-    currentThreadId = thread.id; // Store thread ID for the response header
-
-    // Add the user message to the thread
-    await openai.beta.threads.messages.create(currentThreadId, {
-      role: 'user',
-      content: message,
-    });
-
-    // Increment rate limit count AFTER successfully adding a user message
     userRateLimit.count++;
-    rateLimitMap.set(clientIp, userRateLimit); // Update map with new count
+    rateLimitMap.set(clientIp, userRateLimit);
 
-    // Create a run with streaming enabled
-    const runStream = openai.beta.threads.runs.stream(currentThreadId, {
-      assistant_id: getAssistantId(),
-      // If the assistant is not pre-configured with the vector store,
-      // you would add tool_resources here:
-      // tool_resources: {
-      //   file_search: {
-      //     vector_store_ids: [OPENAI_VECTOR_STORE_ID!],
-      //   },
-      // },
+    const vectorStoreId = getVectorStoreId();
+
+    // Use the Responses API with streaming
+    const stream = await openai.responses.create({
+      model: ASSISTANT_MODEL,
+      instructions: ASSISTANT_INSTRUCTIONS,
+      input: message,
+      tools: [{ type: 'file_search' as const, vector_store_ids: [vectorStoreId] }],
+      stream: true,
+      previous_response_id: previousResponseId || undefined,
     });
+
+    let responseId = '';
+    // Collect the full text and annotations for post-processing citations
+    let fullText = '';
+    const allAnnotations: Array<{ type: string; filename?: string; file_id?: string; index?: number }> = [];
 
     const encoder = new TextEncoder();
     const readableStream = new ReadableStream({
       async start(controller) {
-        for await (const event of runStream) {
-          // Look for 'thread.message.delta' events which contain the assistant's response fragments
-          if (event.event === 'thread.message.delta' && event.data.delta.content) {
-            for (const contentDelta of event.data.delta.content) {
-              if (contentDelta.type === 'text' && contentDelta.text?.value) {
-                // Encode and enqueue the text value for streaming
-                controller.enqueue(encoder.encode(contentDelta.text.value));
+        try {
+          for await (const event of stream) {
+            // Capture response ID from the created event
+            if (event.type === 'response.created') {
+              responseId = event.response.id;
+            }
+
+            // Stream text deltas to client in real-time
+            if (event.type === 'response.output_text.delta') {
+              fullText += event.delta;
+              controller.enqueue(encoder.encode(event.delta));
+            }
+
+            // Collect annotations as they arrive
+            if (event.type === 'response.output_text.annotation.added') {
+              const ann = event.annotation as { type: string; filename?: string; file_id?: string; index?: number };
+              allAnnotations.push(ann);
+            }
+
+            // On completion, send processed citations as a final chunk
+            if (event.type === 'response.completed') {
+              // Also extract annotations from the completed response
+              const response = event.response;
+              if (response.output) {
+                for (const item of response.output) {
+                  if (item.type === 'message' && 'content' in item) {
+                    for (const content of (item as { content: Array<{ type: string; annotations?: Array<{ type: string; filename?: string; file_id?: string; index?: number }> }> }).content) {
+                      if (content.type === 'output_text' && content.annotations) {
+                        // Use completed response annotations (more reliable than streamed ones)
+                        allAnnotations.length = 0;
+                        allAnnotations.push(...content.annotations);
+                      }
+                    }
+                  }
+                }
+              }
+
+              // Process citations and send the source links as a final chunk
+              const processed = processCitations(fullText, allAnnotations);
+              if (processed !== fullText) {
+                // Send only the diff (the citation footer)
+                const citationFooter = processed.slice(fullText.length);
+                controller.enqueue(encoder.encode(citationFooter));
               }
             }
           }
-          // Other events like 'thread.run.completed', 'thread.tool.steps' etc.,
-          // can be handled here if more granular client-side UI updates are needed.
+          controller.close();
+        } catch (streamError) {
+          console.error('Stream processing error:', streamError);
+          controller.error(streamError);
         }
-        controller.close();
       },
     });
 
-    // Return a streaming response with the custom thread ID header
     return new NextResponse(readableStream, {
       headers: {
-        'Content-Type': 'text/plain', // Use text/plain for raw text streaming
-        'X-Thread-Id': currentThreadId, // Custom header for thread ID
-        'Cache-Control': 'no-cache, no-transform', // Important for streaming responses
+        'Content-Type': 'text/plain',
+        'X-Response-Id': responseId,
+        'Cache-Control': 'no-cache, no-transform',
       },
-      status: 200,
     });
   } catch (error) {
     console.error('API Error:', error);
-
-    // Provide a more descriptive error message if it's an OpenAI error
-    let errorMessage = 'An unexpected error occurred.';
-    let statusCode = 500;
-
-    if (error instanceof Error) {
-      errorMessage = error.message;
-      // You could check for specific error types from OpenAI if needed
-      // e.g., if (error.name === 'OpenAIError') statusCode = error.status;
-    }
-
-    return NextResponse.json({ error: errorMessage }, { status: statusCode, headers: { 'X-Thread-Id': currentThreadId || '' } });
+    return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 });
   }
 }
