@@ -4,11 +4,11 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
 export function Hero() {
-  const scrollToPrototype = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const scrollToExperience = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const element = document.getElementById('prototype');
+    const element = document.getElementById('experience');
     if (element) {
-      const navHeight = 80; // Assuming nav height is ~80px (5rem)
+      const navHeight = 80;
       const offsetTop = element.offsetTop - navHeight;
       window.scrollTo({
         top: offsetTop,
@@ -17,7 +17,6 @@ export function Hero() {
     }
   };
 
-  // SVG for subtle topographic lines background
   const topographicPattern = `
     <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -27,7 +26,7 @@ export function Hero() {
       </defs>
       <rect x="0" y="0" width="100%" height="100%" fill="url(#gridPattern)" />
     </svg>
-  `.replace(/\n/g, '').replace(/#/g, '%23'); // Sanitize for data URI
+  `.replace(/\n/g, '').replace(/#/g, '%23');
 
   return (
     <motion.section
@@ -37,7 +36,6 @@ export function Hero() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' as const }}
     >
-      {/* Subtle animated topographic lines background */}
       <motion.div
         className="absolute inset-0 z-0 opacity-10"
         initial={{ scale: 1.05, opacity: 0 }}
@@ -56,8 +54,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.7, ease: 'easeOut' as const }}
         >
-          Using AI to unlock public good.
-          {/* Subtle accent line below heading */}
+          Delivering solutions that matter.
           <motion.span
             className="absolute left-1/2 -translate-x-1/2 bottom-[-15px] w-24 h-1 bg-teal-700 rounded-full"
             initial={{ width: 0, opacity: 0 }}
@@ -72,7 +69,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.7, ease: 'easeOut' as const }}
         >
-          Experienced Product Owner and AI builder with hands-on LINZ data experience. I&apos;m a multifaceted AI-enabled professional with deep interest and insights into public data and how it can be used for public good.
+          Delivery leader and product specialist with hands-on LINZ data experience. I partner with teams, stakeholders and end users to turn complex problems into high-value outcomes — using AI as a practical tool, not a silver bullet.
         </motion.p>
 
         <motion.div
@@ -83,9 +80,9 @@ export function Hero() {
           <Button
             size="lg"
             className="mt-8 px-8 py-3 text-lg bg-teal-700 hover:bg-teal-800 text-white rounded-full transition-colors shadow-md hover:shadow-lg focus-visible:ring-teal-500"
-            onClick={scrollToPrototype}
+            onClick={scrollToExperience}
           >
-            Check this out
+            See how I work
           </Button>
         </motion.div>
       </div>

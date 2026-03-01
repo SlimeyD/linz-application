@@ -2,15 +2,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react'; // Using lucide-react for icons
+import { Menu, X } from 'lucide-react';
 
 const links = [
   { name: 'About', href: '#about' },
   { name: 'Why LINZ', href: '#why-linz' },
-  { name: 'Prototype', href: '#prototype' },
-  { name: 'Approach', href: '#approach' },
   { name: 'Experience', href: '#experience' },
   { name: 'Projects', href: '#projects' },
+  { name: 'Prototype', href: '#prototype' },
+  { name: 'Approach', href: '#approach' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -18,15 +18,13 @@ export function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
 
-  const navHeightPx = 80; // Assuming nav height is ~80px (5rem)
+  const navHeightPx = 80;
   const navHeight = `${navHeightPx}px`;
 
-  // Intersection Observer to track active section
   useEffect(() => {
     const observerOptions = {
       root: null,
-      // Adjust root margin to trigger when section is well into view, accounting for sticky nav
-      rootMargin: `-${navHeightPx - 1}px 0px -75% 0px`, 
+      rootMargin: `-${navHeightPx - 1}px 0px -75% 0px`,
       threshold: 0.1,
     };
 
@@ -59,12 +57,12 @@ export function Nav() {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      const offsetTop = element.offsetTop - navHeightPx; // Adjust for sticky nav
+      const offsetTop = element.offsetTop - navHeightPx;
       window.scrollTo({
         top: offsetTop,
         behavior: 'smooth',
       });
-      setIsOpen(false); // Close mobile menu on click
+      setIsOpen(false);
     }
   };
 
@@ -82,7 +80,6 @@ export function Nav() {
           Damian Sligo-Green
         </a>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8">
           {links.map((link) => (
             <a
@@ -106,7 +103,6 @@ export function Nav() {
           ))}
         </div>
 
-        {/* Mobile Hamburger Menu */}
         <div className="md:hidden flex items-center">
           <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600 hover:text-teal-700">
             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -114,7 +110,6 @@ export function Nav() {
         </div>
       </div>
 
-      {/* Mobile Menu Panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

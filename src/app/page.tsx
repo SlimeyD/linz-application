@@ -18,17 +18,17 @@ export default function Home() {
         <section id="why-linz">
           <WhyLinz />
         </section>
-        <section id="prototype">
-          <Prototype />
-        </section>
-        <section id="approach">
-          <AiApproach />
-        </section>
         <section id="experience">
           <Experience />
         </section>
         <section id="projects">
           <Projects />
+        </section>
+        <section id="prototype">
+          <Prototype />
+        </section>
+        <section id="approach">
+          <AiApproach />
         </section>
       </main>
       <section id="contact">

@@ -6,31 +6,31 @@ import Link from 'next/link';
 
 const experienceEntries = [
   {
-    title: 'AI & LLM Product Development',
+    title: 'Delivery Leadership & Stakeholder Management',
     description:
-      'Built a multi-model, multi-agent orchestration system coordinating Claude, GPT and Gemini, plus RAG systems using the OpenAI Assistants API. Earlier work includes Kaia the Kaka — an AR scavenger hunt for Wellington City Council using image recognition — and AI-enabled automation pipelines for message triage workflows.',
-    link: { text: 'Kaia the Kaka', href: 'https://bamboocreative.nz/work/ar-scavenger-hunt/' },
+      'Led concurrent digital product programmes across government, not-for-profit and startup contexts \u2014 from strategy and discovery through agile delivery. Managed competing stakeholder priorities, facilitated alignment, and acted as escalation point when programmes encountered complexity. Experienced in navigating organisational change and capability gaps where technology disrupts existing service models.',
   },
   {
-    title: 'Product Ownership & Delivery',
+    title: 'Product Ownership & Agile Delivery',
     description:
-      'Co-founded ratemyflat.org.nz, handling product strategy, prototyping, design artifacts and frontend delivery. As Principal at Bamboo Creative, delivered strategic digital solutions across product roadmaps and agile development cycles for clients including Wellington City Council and government agencies.',
+      'Co-founded ratemyflat \u2014 product strategy, prototyping, design artifacts and frontend delivery built on LINZ data. Use RICE, MoSCoW and WSJF for prioritisation. Develop requirements using BDD with job stories and cucumber notation. Recently built a custom AI skill for backlog refinement that aggregates value/effort perspectives from SMEs and team members. Strong path from strategy \u2192 roadmap \u2192 user needs \u2192 requirements.',
+    link: { text: 'ratemyflat.org.nz', href: 'https://ratemyflat.org.nz' },
+  },
+  {
+    title: 'Team Enablement & Capability Building',
+    description:
+      'Seeded a new product team for a legal tech startup \u2014 playing CPO, hiring developers, defining product vision, delivering MVP in 4 months, then transitioning to advisory as internal capability grew. Mentored intermediate product and project managers. Advocate for Working Out Loud \u2014 sharing work openly through writing, video walkthroughs and peer coaching to build organisational capability rather than external dependency.',
   },
   {
     title: 'Government & Regulated Environments',
     description:
-      'Developed an outcomes measurement platform for MBIE — a usable Airtable prototype enabling users to interrogate the Broader Outcomes Framework across indicators, metrics and data sources. Built two scenario modelling calculators integrating multiple government datasets for GWRC and WCC. Specified and managed development of a flight planning platform for AeroPath, a subsidiary of Airways NZ. Strong experience with the Privacy Act 2020 through regulated financial advisory work.',
+      'Developed a NZ Government Procurement outcomes framework aligning with Broader Outcomes and government procurement rules, GWRC/WCC emissions modelling calculators, Aeropath (Airways) NZ flight planning platform, Para Kore waste reporting (MfE). Aware of government standards and guidance including the Public Service AI Framework. Nuanced understanding of the principles and implications of the Privacy Act 2020 through regulated financial advisory work. General interest and understanding of public sector policy, process and considerations.',
   },
   {
-    title: 'Data Platforms & Integration',
+    title: 'AI & Data Platforms',
     description:
-      'Built ratemyflat.org.nz on LINZ property data with Supabase and PostgreSQL. Designed relational databases mapping diverse government outcomes to their data sources, pulling on existing government and non-government standards, measures and data sources.',
-  },
-  {
-    title: 'User-Centred Design Advocate',
-    description:
-      'A deep believer in people. I see real opportunity to equip teams with skills to become capable, productive AI users — deepening their understanding of tools, processes and what these systems can do. Desktop and targeted user research drives everything I build. Contributed to Better Work Together, a practical guide to team collaboration published by Atlassian.',
-    link: { text: 'Better Work Together', href: 'https://betterworktogether.co' },
+      'Multi-model, multi-agent orchestration (Claude + Gemini + GPT), RAG systems, vector search, AI-enabled automation pipelines. Practical experience with responsible AI considerations \u2014 knowing when AI adds genuine value vs. when simpler solutions serve better.',
+    link: { text: 'My first AI project \u2014 using OCR', href: 'https://www.bamboocreative.nz/case-studies/kaia-the-kaka' },
   },
 ];
 
@@ -49,7 +49,6 @@ export function Experience() {
         </motion.h2>
 
         <div className="relative pl-6 md:pl-10">
-          {/* Vertical line */}
           <div className="absolute left-3 md:left-5 top-0 h-full border-l-2 border-teal-200" />
 
           {experienceEntries.map((entry, index) => (
@@ -61,7 +60,6 @@ export function Experience() {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, delay: index * 0.15, ease: 'easeOut' }}
             >
-              {/* Dot for timeline */}
               <div className="absolute -left-3 md:-left-5 top-0 z-10 p-1 bg-white rounded-full">
                 <Dot className="h-6 w-6 text-teal-700 bg-teal-700 rounded-full" />
               </div>

@@ -16,9 +16,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Damian Sligo-Green | Product Owner - AI Application',
+  title: 'Damian Sligo-Green | Solution Delivery Specialist',
   description:
-    'Damian Sligo-Green is applying for the Product Owner - AI Application role at Toitū Te Whenua Land Information New Zealand (LINZ). Showcasing experience in AI product development, government environments, and a passion for accessible land data.',
+    'Damian Sligo-Green \u2014 delivery leader and product specialist applying for the Solution Delivery Specialist role at Toit\u016b Te Whenua Land Information New Zealand (LINZ). Experience in delivery leadership, stakeholder management, government environments, and AI-enabled product development.',
 };
 
 export default function RootLayout({

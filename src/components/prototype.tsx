@@ -18,10 +18,9 @@ export default function Prototype() {
         transition={{ duration: 0.8 }}
         className="text-center max-w-3xl mx-auto mb-12"
       >
-        <h2 className="text-4xl font-heading font-bold text-slate-900 mb-6">Practical AI Demo</h2>
+        <h2 className="text-4xl font-heading font-bold text-slate-900 mb-6">From Idea to Working Prototype</h2>
         <p className="text-lg text-slate-700 leading-relaxed">
-          Ask natural language questions about the LINZ District Valuation Roll — data structure, lookup codes, availability, and common issues.
-          This interactive RAG system searches over seven real LINZ DVR documentation files to deliver precise, context-aware answers.
+          To demonstrate how I think about AI product delivery, I built this in a week. It&apos;s a RAG system that answers natural language questions about LINZ DVR documentation — showing how AI can make complex government data more accessible.
         </p>
       </motion.div>
 

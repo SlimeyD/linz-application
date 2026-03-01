@@ -6,24 +6,24 @@ import { Lightbulb, Database, Briefcase, Heart } from 'lucide-react';
 
 const whyLinzCards = [
   {
-    icon: <Database className="text-teal-700" size={28} />,
-    title: 'Real LINZ Data User',
-    description: 'Co-founder of ratemyflat.org.nz — a property insights platform built directly on LINZ data, proving hands-on expertise and product vision.',
-  },
-  {
-    icon: <Lightbulb className="text-teal-700" size={28} />,
-    title: 'AI Product Builder',
-    description: 'Built a multi-model, multi-agent orchestration system from scratch — from AI-enabled automations and workflows to production websites and tools.',
-  },
-  {
     icon: <Briefcase className="text-teal-700" size={28} />,
-    title: 'Government Experience',
-    description: 'Outcomes frameworks, emissions modelling, flight planning — embedded with multi-faceted teams across and outside government to deliver real results.',
+    title: 'Delivery in Complex Environments',
+    description: 'Led multi-stakeholder delivery across government, not-for-profit and private sectors. From discovery through delivery, embedding with teams to achieve outcomes.',
+  },
+  {
+    icon: <Database className="text-teal-700" size={28} />,
+    title: 'Real LINZ Data Experience',
+    description: 'Co-founder of ratemyflat, built directly on LINZ property data. Hands-on understanding of the data, the users, and the opportunities.',
   },
   {
     icon: <Heart className="text-teal-700" size={28} />,
-    title: 'Passion for Whenua',
-    description: 'Ensuring land and sea are understood and used for the benefit of all New Zealanders — contributing to a resilient, prosperous Aotearoa through accessible public data.',
+    title: 'Working with Māori-led Organisations',
+    description: 'Partnered with Para Kore (zero-waste, MfE) to develop a measurement and reporting platform and Amotai (Māori procurement org) while developing a procurement outcomes framework for NZ Govt Procurement. Adapted ways of working to ensure kaupapa Māori was incorporated and celebrated.',
+  },
+  {
+    icon: <Lightbulb className="text-teal-700" size={28} />,
+    title: 'AI as a Practical Tool',
+    description: 'Built multi-model orchestration systems, RAG pipelines, and AI-enabled workflows. Experienced with agentic coding (see below) which leverages technical fluency and enables informed decisions about when AI is \u2014 and isn\u2019t \u2014 the right solution.',
   },
 ];
 

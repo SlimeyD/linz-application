@@ -85,6 +85,25 @@ const PatternCard = ({ title, icon, summary, description, usedFor }: PatternCard
   );
 };
 
+const responsibleAiItems = [
+  {
+    title: 'Public Service AI Framework',
+    description: "Aligned with the NZ Government\u2019s framework for responsible AI adoption in public services.",
+  },
+  {
+    title: 'Knowing When Not to Use AI',
+    description: 'The most important AI skill is recognising when simpler, proven solutions serve users better.',
+  },
+  {
+    title: 'Human-in-the-Loop',
+    description: 'Designing AI systems where human oversight is a feature, not an afterthought \u2014 especially for decisions affecting New Zealanders.',
+  },
+  {
+    title: 'Data Governance & Privacy',
+    description: 'Practical understanding of Privacy Act 2020 implications and data sovereignty considerations for government AI systems.',
+  },
+];
+
 export default function AiApproach() {
   return (
     <section id="approach" className="py-20 px-4 bg-white">
@@ -145,6 +164,7 @@ export default function AiApproach() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6 }}
+          className="mb-16"
         >
           <h3 className="font-heading text-2xl text-center text-slate-700 mb-8">AI Patterns I Use</h3>
 
@@ -153,15 +173,15 @@ export default function AiApproach() {
               {
                 title: 'Sequential Pipeline',
                 icon: <GitCommit size={22} />,
-                summary: 'Plan → Execute → Review → Iterate. Each step validates the previous, with human checkpoints between phases.',
-                description: 'Complex tasks are broken into dependent steps where output feeds the next stage. Each step includes validation — often with a human-in-the-loop checkpoint — allowing correction before proceeding. This balances automation with oversight.',
+                summary: 'Plan \u2192 Execute \u2192 Review \u2192 Iterate. Each step validates the previous, with human checkpoints between phases.',
+                description: 'Complex tasks are broken into dependent steps where output feeds the next stage. Each step includes validation \u2014 often with a human-in-the-loop checkpoint \u2014 allowing correction before proceeding. This balances automation with oversight.',
                 usedFor: 'feature implementation, bug fixes, content generation.',
               },
               {
                 title: 'Council of Experts',
                 icon: <Users size={22} />,
                 summary: 'Parallel specialist agents analyse the same problem through different lenses.',
-                description: 'Multiple AI agents — each with a distinct focus (UX, security, performance, accessibility) — independently analyse the same codebase or problem. Their reports are consolidated to find agreement, resolve conflicts, and surface blind spots that a single perspective would miss.',
+                description: 'Multiple AI agents \u2014 each with a distinct focus (UX, security, performance, accessibility) \u2014 independently analyse the same codebase or problem. Their reports are consolidated to find agreement, resolve conflicts, and surface blind spots that a single perspective would miss.',
                 usedFor: 'code review, website audits, architecture decisions.',
               },
               {
@@ -180,6 +200,32 @@ export default function AiApproach() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <PatternCard {...card} />
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Responsible AI in Government */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h3 className="font-heading text-2xl text-center text-slate-700 mb-8">Responsible AI in Government</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {responsibleAiItems.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
+              >
+                <h4 className="font-bold text-lg text-slate-800 mb-2">{item.title}</h4>
+                <p className="text-slate-600 text-sm">{item.description}</p>
               </motion.div>
             ))}
           </div>
