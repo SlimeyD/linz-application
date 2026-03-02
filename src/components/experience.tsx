@@ -8,7 +8,7 @@ const experienceEntries = [
   {
     title: 'AI Product Development',
     description:
-      'I have extensive experience developing AI-enhanced products and workflows. I built a multi-model, multi-agent orchestration system coordinating Claude, GPT, and Gemini agents for model-specific tasks and strengths. My work includes content pipelines and automations, and I proactively share insights, tools, and approaches. My first AI-enhanced product, Kaia the K\u0101k\u0101, was an enhanced reality (ER) scavenger hunt using OCR. I\u2019m particularly interested in how agentic AI can improve team coordination and collaboration.',
+      'I have extensive experience developing AI-enhanced products. I built a multi-model, multi-agent orchestration system coordinating Claude, GPT, and Gemini agents for model-specific tasks and strengths. I\u2019ve developed products integrating AI to triage issues, draft content and detect events to trigger appropriate workflows. My first AI-enhanced product, Kaia the K\u0101k\u0101, was an enhanced reality (ER) scavenger hunt using OCR. I\u2019m particularly interested in how agentic AI can improve team coordination and collaboration.',
     link: { text: 'Kaia the K\u0101k\u0101', href: 'https://www.bamboocreative.nz/case-studies/kaia-the-kaka' },
   },
   {

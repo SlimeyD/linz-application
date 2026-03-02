@@ -10,7 +10,7 @@ const projectsData = [
     name: 'ratemyflat',
     icon: '/ratemyflat-icon.svg',
     description: 'Property insights platform built using LINZ data, helping renters and investors make informed decisions about New Zealand housing.',
-    role: 'Co-founder & Developer',
+    role: 'Co-founder & PO',
     link: 'https://ratemyflat.org.nz',
   },
   {

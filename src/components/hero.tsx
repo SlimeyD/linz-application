@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 export function Hero() {
   const scrollToExperience = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const element = document.getElementById('experience');
+    const element = document.getElementById('prototype');
     if (element) {
       const navHeight = 80;
       const offsetTop = element.offsetTop - navHeight;

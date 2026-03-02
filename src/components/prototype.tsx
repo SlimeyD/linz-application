@@ -41,7 +41,15 @@ export default function Prototype() {
         transition={{ duration: 0.8, delay: 0.6 }}
         className="text-center text-sm text-slate-500 mt-8"
       >
-        <span className="font-semibold">Note:</span> This tool leverages Retrieval-Augmented Generation (RAG) via OpenAI&apos;s Responses API and a built-in vector store. User queries are matched against a predefined knowledge base, ensuring accurate and context-rich responses about the LINZ DVR.
+        <span className="font-semibold">Note:</span> This tool leverages Retrieval-Augmented Generation (RAG) via OpenAI&apos;s Responses API and a built-in vector store. User queries are matched against a predefined knowledge base, ensuring accurate and context-rich responses about the LINZ DVR.{' '}
+          <Link
+            href="https://github.com/SlimeyD/linz-application/blob/main/docs/vector-store-architecture.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-0.5 text-teal-600 hover:text-teal-700 font-medium"
+          >
+            Vector Store Architecture <ExternalLink className="h-3 w-3" />
+          </Link>
       </motion.p>
 
       {/* Collapsible: How This Could Be Enhanced */}
