@@ -54,7 +54,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.7, ease: 'easeOut' as const }}
         >
-          Delivering solutions that matter.
+          Using AI to unlock public good.
           <motion.span
             className="absolute left-1/2 -translate-x-1/2 bottom-[-15px] w-24 h-1 bg-teal-700 rounded-full"
             initial={{ width: 0, opacity: 0 }}
@@ -69,7 +69,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.7, ease: 'easeOut' as const }}
         >
-          Delivery leader and product specialist with hands-on LINZ data experience. I partner with teams, stakeholders and end users to turn complex problems into high-value outcomes — using AI as a practical tool, not a silver bullet.
+          Experienced Product Owner and AI builder with hands-on LINZ data experience. I combine a deep interest in public data with practical insights into leveraging AI to unlock its value for public good.
         </motion.p>
 
         <motion.div
@@ -82,7 +82,7 @@ export function Hero() {
             className="mt-8 px-8 py-3 text-lg bg-teal-700 hover:bg-teal-800 text-white rounded-full transition-colors shadow-md hover:shadow-lg focus-visible:ring-teal-500"
             onClick={scrollToExperience}
           >
-            See how I work
+            Check this out
           </Button>
         </motion.div>
       </div>

@@ -1,36 +1,30 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Dot, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
 const experienceEntries = [
   {
-    title: 'Delivery Leadership & Stakeholder Management',
+    title: 'AI Product Development',
     description:
-      'Led concurrent digital product programmes across government, not-for-profit and startup contexts \u2014 from strategy and discovery through agile delivery. Managed competing stakeholder priorities, facilitated alignment, and acted as escalation point when programmes encountered complexity. Experienced in navigating organisational change and capability gaps where technology disrupts existing service models.',
+      'I have extensive experience developing AI-enhanced products and workflows. I built a multi-model, multi-agent orchestration system coordinating Claude, GPT, and Gemini agents for model-specific tasks and strengths. My work includes content pipelines and automations, and I proactively share insights, tools, and approaches. My first AI-enhanced product, Kaia the K\u0101k\u0101, was an enhanced reality (ER) scavenger hunt using OCR. I\u2019m particularly interested in how agentic AI can improve team coordination and collaboration.',
+    link: { text: 'Kaia the K\u0101k\u0101', href: 'https://www.bamboocreative.nz/case-studies/kaia-the-kaka' },
   },
   {
-    title: 'Product Ownership & Agile Delivery',
+    title: 'Product Ownership & Delivery',
     description:
-      'Co-founded ratemyflat \u2014 product strategy, prototyping, design artifacts and frontend delivery built on LINZ data. Use RICE, MoSCoW and WSJF for prioritisation. Develop requirements using BDD with job stories and cucumber notation. Recently built a custom AI skill for backlog refinement that aggregates value/effort perspectives from SMEs and team members. Strong path from strategy \u2192 roadmap \u2192 user needs \u2192 requirements.',
-    link: { text: 'ratemyflat.org.nz', href: 'https://ratemyflat.org.nz' },
-  },
-  {
-    title: 'Team Enablement & Capability Building',
-    description:
-      'Seeded a new product team for a legal tech startup \u2014 playing CPO, hiring developers, defining product vision, delivering MVP in 4 months, then transitioning to advisory as internal capability grew. Mentored intermediate product and project managers. Advocate for Working Out Loud \u2014 sharing work openly through writing, video walkthroughs and peer coaching to build organisational capability rather than external dependency.',
+      'I manage the full SDLC, encompassing user and stakeholder needs analysis and validation, product strategy, planning, budget and resource coordination, team composition, and prioritised agile delivery. I excel at engaging stakeholders and end-users, integrating them into product definition, testing, and iteration to deliver tangible business outcomes.',
   },
   {
     title: 'Government & Regulated Environments',
     description:
-      'Developed a NZ Government Procurement outcomes framework aligning with Broader Outcomes and government procurement rules, GWRC/WCC emissions modelling calculators, Aeropath (Airways) NZ flight planning platform, Para Kore waste reporting (MfE). Aware of government standards and guidance including the Public Service AI Framework. Nuanced understanding of the principles and implications of the Privacy Act 2020 through regulated financial advisory work. General interest and understanding of public sector policy, process and considerations.',
+      'I led a project to develop an outcomes measurement framework and tool for NZ Government Procurement, in partnership with Auckland Transport, Beca, Amotai, and others. I built two emissions scenario modelling calculators integrating various datasets for Greater Wellington Regional Council (GWRC) and Wellington City Council (WCC). I also specified, designed, and managed development of a flight planning platform for AeroPath, a subsidiary of Airways NZ. I have a strong understanding of the Privacy Act 2020, privacy principles, and other key aspects of NZ regulation.',
   },
   {
-    title: 'AI & Data Platforms',
+    title: 'People & Stakeholders',
     description:
-      'Multi-model, multi-agent orchestration (Claude + Gemini + GPT), RAG systems, vector search, AI-enabled automation pipelines. Practical experience with responsible AI considerations \u2014 knowing when AI adds genuine value vs. when simpler solutions serve better.',
-    link: { text: 'My first AI project \u2014 using OCR', href: 'https://www.bamboocreative.nz/case-studies/kaia-the-kaka' },
+      'I like people. I\u2019m interested in their experiences, needs and jobs to be done. This genuine curiosity and capacity to listen and reflect enables me to build trust, identify gaps and create alignment around objectives, risks and trade-offs. I\u2019m comfortable designing and facilitating workshops in person and online, synthesising insights into formats that feed directly into project planning and continuous improvement. Well versed in the constraints of design and development, I translate needs and concerns between stakeholders and gain satisfaction from equipping people to become capable, productive AI users.',
   },
 ];
 
@@ -48,22 +42,22 @@ export function Experience() {
           Experience Highlights
         </motion.h2>
 
-        <div className="relative pl-6 md:pl-10">
-          <div className="absolute left-3 md:left-5 top-0 h-full border-l-2 border-teal-200" />
+        <div className="relative pl-10 md:pl-12">
+          <div className="absolute left-[11px] md:left-[13px] top-0 h-full w-0.5 bg-teal-200" />
 
           {experienceEntries.map((entry, index) => (
             <motion.div
               key={index}
-              className="mb-10 flex relative"
+              className="mb-10 relative"
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.6, delay: index * 0.15, ease: 'easeOut' }}
             >
-              <div className="absolute -left-3 md:-left-5 top-0 z-10 p-1 bg-white rounded-full">
-                <Dot className="h-6 w-6 text-teal-700 bg-teal-700 rounded-full" />
+              <div className="absolute -left-10 md:-left-12 top-1.5 z-10 flex items-center justify-center w-6 h-6 md:w-7 md:h-7">
+                <div className="w-3 h-3 bg-teal-700 rounded-full ring-4 ring-white" />
               </div>
-              <div className="flex-1 ml-4 md:ml-8">
+              <div>
                 <h3 className="font-heading text-xl md:text-2xl text-slate-800 mb-2">
                   {entry.title}
                 </h3>

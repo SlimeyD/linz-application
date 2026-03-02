@@ -34,7 +34,7 @@ export function Footer() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-slate-300 text-lg max-w-2xl mx-auto mb-8"
         >
-          Thank you for considering my application. I look forward to the opportunity to discuss how my skills and passion can contribute to the impactful work at LINZ.
+          Thank you for considering my application. I look forward to the opportunity to discuss how my skills and passion can contribute to driving innovation, stability and growth for Aotearoa.
         </motion.p>
 
         <motion.div
@@ -53,7 +53,7 @@ export function Footer() {
             <Github className="w-5 h-5" /> GitHub
           </Link>
           <Link
-            href="https://linkedin.com/in/damian-sligo-green"
+            href="https://www.linkedin.com/in/damian-sligo-green-2b221a34/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-slate-400 hover:text-teal-400 transition-colors"

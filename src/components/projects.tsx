@@ -7,18 +7,18 @@ import Image from 'next/image';
 
 const projectsData = [
   {
-    name: 'ratemyflat.org.nz',
+    name: 'ratemyflat',
     icon: '/ratemyflat-icon.svg',
-    description: 'Property insights platform built on LINZ data, helping renters and buyers make informed decisions about New Zealand housing.',
+    description: 'Property insights platform built using LINZ data, helping renters and investors make informed decisions about New Zealand housing.',
     role: 'Co-founder & Developer',
     link: 'https://ratemyflat.org.nz',
   },
   {
     name: 'Freehold',
     icon: '/freehold-icon.png',
-    description: 'Socially responsible KiwiSaver and financial advice service, making ethical investing accessible to all New Zealanders.',
+    description: 'Socially responsible KiwiSaver and financial advice platform, making personalised, ethical investing accessible to all New Zealanders.',
     role: 'Design & Development',
-    link: 'https://freehold-site.vercel.app',
+    link: 'https://freehold.nz',
   },
   {
     name: 'Bamboo Creative',

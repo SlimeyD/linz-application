@@ -128,7 +128,7 @@ export default function AiApproach() {
         >
           <h3 className="font-heading text-2xl text-center text-slate-700 mb-2">How I Built This</h3>
           <p className="text-center text-slate-500 mb-8 text-sm">
-            Multi-model AI orchestration (Claude + Gemini) was used to build the site itself.
+            I built this site and embedded prototype using my multi-model AI orchestration system (Claude + Gemini). A high-level architecture diagram is shown below.
           </p>
 
           <div className="bg-slate-900 rounded-2xl p-6 md:p-8 overflow-x-auto">
@@ -141,7 +141,7 @@ export default function AiApproach() {
               <Arrow direction="down" className="lg:hidden" />
               <Arrow direction="right" className="hidden lg:flex" />
 
-              <DiagramNode icon={<Bot size={22} />} label="Assistants API" subLabel="OpenAI" />
+              <DiagramNode icon={<Bot size={22} />} label="Responses API" subLabel="OpenAI" />
               <Arrow direction="down" className="lg:hidden" />
               <Arrow direction="right" className="hidden lg:flex" />
 

@@ -59,7 +59,7 @@ export default function Chat() {
     if (storedResponseId) {
       setResponseId(storedResponseId);
     }
-    inputRef.current?.focus();
+    // Don't auto-focus on mount — it scrolls the page to this section
   }, []);
 
   // Effect to manage user message count (client-side approximation)
@@ -161,7 +161,7 @@ export default function Chat() {
     sendMessage(question);
   }, [sendMessage]);
 
-  const assistantName = 'LINZ Data Assistant';
+  const assistantName = 'LINZ DVR Assistant';
 
   return (
     <div className="flex flex-col max-h-[500px] w-full bg-white rounded-xl border border-slate-200 shadow-lg overflow-hidden font-sans">

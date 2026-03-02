@@ -18,9 +18,9 @@ export default function Prototype() {
         transition={{ duration: 0.8 }}
         className="text-center max-w-3xl mx-auto mb-12"
       >
-        <h2 className="text-4xl font-heading font-bold text-slate-900 mb-6">From Idea to Working Prototype</h2>
+        <h2 className="text-4xl font-heading font-bold text-slate-900 mb-6">Practical AI Demo</h2>
         <p className="text-lg text-slate-700 leading-relaxed">
-          To demonstrate how I think about AI product delivery, I built this in a week. It&apos;s a RAG system that answers natural language questions about LINZ DVR documentation — showing how AI can make complex government data more accessible.
+          Ask questions about the LINZ District Valuation Roll (DVR) — covering its data structure, lookup codes, availability, and common issues. This interactive RAG system searches over seven LINZ DVR documents to deliver precise, context-aware answers.
         </p>
       </motion.div>
 
@@ -41,7 +41,7 @@ export default function Prototype() {
         transition={{ duration: 0.8, delay: 0.6 }}
         className="text-center text-sm text-slate-500 mt-8"
       >
-        <span className="font-semibold">Note:</span> Built with OpenAI Assistants API and vector store file search over 7 LINZ documentation files.
+        <span className="font-semibold">Note:</span> This tool leverages Retrieval-Augmented Generation (RAG) via OpenAI&apos;s Responses API and a built-in vector store. User queries are matched against a predefined knowledge base, ensuring accurate and context-rich responses about the LINZ DVR.
       </motion.p>
 
       {/* Collapsible: How This Could Be Enhanced */}
@@ -109,22 +109,6 @@ export default function Prototype() {
                         >
                           See issue <ExternalLink className="h-3 w-3" />
                         </Link>
-                      </span>
-                    </li>
-                    <li className="flex gap-2">
-                      <span className="text-teal-700 mt-0.5">•</span>
-                      <span>
-                        <span className="font-medium text-slate-700">API modernisation</span> — Migration from the deprecated Assistants API to OpenAI&apos;s{' '}
-                        <Link
-                          href="https://platform.openai.com/docs/api-reference/responses"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-0.5 text-teal-700 hover:text-teal-800 font-medium"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Responses API <ExternalLink className="h-3 w-3" />
-                        </Link>{' '}
-                        for improved citation support and long-term maintainability.
                       </span>
                     </li>
                     <li className="flex gap-2">
