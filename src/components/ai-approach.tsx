@@ -85,24 +85,6 @@ const PatternCard = ({ title, icon, summary, description, usedFor }: PatternCard
   );
 };
 
-const responsibleAiItems = [
-  {
-    title: 'Public Service AI Framework',
-    description: "Aligned with the NZ Government\u2019s framework for responsible AI adoption in public services.",
-  },
-  {
-    title: 'Knowing When Not to Use AI',
-    description: 'The most important AI skill is recognising when simpler, proven solutions serve users better.',
-  },
-  {
-    title: 'Human-in-the-Loop',
-    description: 'Designing AI systems where human oversight is a feature, not an afterthought \u2014 especially for decisions affecting New Zealanders.',
-  },
-  {
-    title: 'Data Governance & Privacy',
-    description: 'Practical understanding of Privacy Act 2020 implications and data sovereignty considerations for government AI systems.',
-  },
-];
 
 export default function AiApproach() {
   return (
@@ -205,31 +187,6 @@ export default function AiApproach() {
           </div>
         </motion.div>
 
-        {/* Responsible AI in Government */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h3 className="font-heading text-2xl text-center text-slate-700 mb-8">Responsible AI in Government</h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {responsibleAiItems.map((item, index) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-xl border border-slate-200 shadow-sm p-6"
-              >
-                <h4 className="font-bold text-lg text-slate-800 mb-2">{item.title}</h4>
-                <p className="text-slate-600 text-sm">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );

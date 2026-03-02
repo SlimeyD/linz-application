@@ -21,14 +21,14 @@ export default function Home() {
         <section id="experience">
           <Experience />
         </section>
-        <section id="projects">
-          <Projects />
-        </section>
         <section id="prototype">
           <Prototype />
         </section>
         <section id="approach">
           <AiApproach />
+        </section>
+        <section id="projects">
+          <Projects />
         </section>
       </main>
       <section id="contact">
